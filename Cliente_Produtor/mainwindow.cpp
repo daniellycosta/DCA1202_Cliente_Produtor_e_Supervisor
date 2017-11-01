@@ -5,6 +5,7 @@
 #include<QTextBrowser>
 #include<QTimer>
 #include<QLabel>
+#include<QLCDNumber>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent), ui(new Ui::MainWindow){
@@ -44,6 +45,10 @@ void MainWindow::putData(){
     qint64 msecdate;
     QTextBrowser textbox;
     //QTimer timer;
+    int max,min;
+
+    max = ui->lcdNumber_max->digitCount();
+    min = ui->lcdNumber_min->digitCount();
 
 
     timeStr = ui->label_time->text(); //É ASSIM MESMO?
@@ -54,9 +59,8 @@ void MainWindow::putData(){
         if(socket->state()== QAbstractSocket::ConnectedState){
 
             msecdate = QDateTime::currentDateTime().toMSecsSinceEpoch();
-            str = "set "+ QString::number(msecdate) + " " + QString::number(qrand()%35)+"\r\n";
+            str = "set "+ QString::number(msecdate) + " " + QString::number(qrand()%((max + 1) - min) + min)+"\r\n"; //NÃO ENTENDIO RANDOM
             textbox.insertPlainText(str); //CONFERIR
-
 
             qDebug() << str;
             qDebug() << socket->write(str.toStdString().c_str()) << " bytes written";
