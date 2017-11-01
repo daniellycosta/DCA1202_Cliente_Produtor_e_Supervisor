@@ -211,6 +211,9 @@ release/moc_mainwindow.cpp: C:/Qt/Qt5.8.0/5.8/mingw53_32/include/QtWidgets/QMain
 		C:/Qt/Qt5.8.0/5.8/mingw53_32/include/QtNetwork/qtnetwork-config.h \
 		C:/Qt/Qt5.8.0/5.8/mingw53_32/include/QtNetwork/qabstractsocket.h \
 		C:/Qt/Qt5.8.0/5.8/mingw53_32/include/QtCore/QDebug \
+		C:/Qt/Qt5.8.0/5.8/mingw53_32/include/QtCore/QTimer \
+		C:/Qt/Qt5.8.0/5.8/mingw53_32/include/QtCore/qtimer.h \
+		C:/Qt/Qt5.8.0/5.8/mingw53_32/include/QtCore/qbasictimer.h \
 		../Cliente_Produtor/mainwindow.h \
 		release/moc_predefs.h \
 		C:/Qt/Qt5.8.0/5.8/mingw53_32/bin/moc.exe
@@ -348,6 +351,9 @@ release/main.o: ../Cliente_Produtor/main.cpp ../Cliente_Produtor/mainwindow.h \
 		C:/Qt/Qt5.8.0/5.8/mingw53_32/include/QtNetwork/qtnetwork-config.h \
 		C:/Qt/Qt5.8.0/5.8/mingw53_32/include/QtNetwork/qabstractsocket.h \
 		C:/Qt/Qt5.8.0/5.8/mingw53_32/include/QtCore/QDebug \
+		C:/Qt/Qt5.8.0/5.8/mingw53_32/include/QtCore/QTimer \
+		C:/Qt/Qt5.8.0/5.8/mingw53_32/include/QtCore/qtimer.h \
+		C:/Qt/Qt5.8.0/5.8/mingw53_32/include/QtCore/qbasictimer.h \
 		C:/Qt/Qt5.8.0/5.8/mingw53_32/include/QtWidgets/QApplication \
 		C:/Qt/Qt5.8.0/5.8/mingw53_32/include/QtWidgets/qapplication.h \
 		C:/Qt/Qt5.8.0/5.8/mingw53_32/include/QtCore/qcoreapplication.h \
@@ -468,6 +474,9 @@ release/mainwindow.o: ../Cliente_Produtor/mainwindow.cpp ../Cliente_Produtor/mai
 		C:/Qt/Qt5.8.0/5.8/mingw53_32/include/QtNetwork/qtnetwork-config.h \
 		C:/Qt/Qt5.8.0/5.8/mingw53_32/include/QtNetwork/qabstractsocket.h \
 		C:/Qt/Qt5.8.0/5.8/mingw53_32/include/QtCore/QDebug \
+		C:/Qt/Qt5.8.0/5.8/mingw53_32/include/QtCore/QTimer \
+		C:/Qt/Qt5.8.0/5.8/mingw53_32/include/QtCore/qtimer.h \
+		C:/Qt/Qt5.8.0/5.8/mingw53_32/include/QtCore/qbasictimer.h \
 		ui_mainwindow.h \
 		C:/Qt/Qt5.8.0/5.8/mingw53_32/include/QtCore/QVariant \
 		C:/Qt/Qt5.8.0/5.8/mingw53_32/include/QtWidgets/QAction \
@@ -533,10 +542,7 @@ release/mainwindow.o: ../Cliente_Produtor/mainwindow.cpp ../Cliente_Produtor/mai
 		C:/Qt/Qt5.8.0/5.8/mingw53_32/include/QtWidgets/QVBoxLayout \
 		C:/Qt/Qt5.8.0/5.8/mingw53_32/include/QtWidgets/QWidget \
 		C:/Qt/Qt5.8.0/5.8/mingw53_32/include/QtCore/QDateTime \
-		C:/Qt/Qt5.8.0/5.8/mingw53_32/include/QtCore/qdatetime.h \
-		C:/Qt/Qt5.8.0/5.8/mingw53_32/include/QtCore/QTimer \
-		C:/Qt/Qt5.8.0/5.8/mingw53_32/include/QtCore/qtimer.h \
-		C:/Qt/Qt5.8.0/5.8/mingw53_32/include/QtCore/qbasictimer.h
+		C:/Qt/Qt5.8.0/5.8/mingw53_32/include/QtCore/qdatetime.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o release/mainwindow.o ../Cliente_Produtor/mainwindow.cpp
 
 release/moc_mainwindow.o: release/moc_mainwindow.cpp 
