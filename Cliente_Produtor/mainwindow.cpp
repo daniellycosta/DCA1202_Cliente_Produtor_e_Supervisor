@@ -24,9 +24,9 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->pushButton_stop,
             SIGNAL(clicked(bool)),
             this,
-            SLOT(stopData());
+            SLOT(stopData()));
 }
-//host default "127.0.0.1"
+//default host "127.0.0.1"
 
 void MainWindow::tcpConnect(){
     socket->connectToHost(getHost(),1234); //PODE FUNÇÃO AQUI?
@@ -59,7 +59,7 @@ void MainWindow::putData(){
         if(socket->state()== QAbstractSocket::ConnectedState){
 
             msecdate = QDateTime::currentDateTime().toMSecsSinceEpoch();
-            str = "set "+ QString::number(msecdate) + " " + QString::number(qrand()%((max + 1) - min) + min)+"\r\n"; //NÃO ENTENDIO RANDOM
+            str = "set "+ QString::number(msecdate) + " " + QString::number(qrand()%((max + 1) - min) + min)+"\r\n"; //NÃO ENTENDIO RANDOM (ACHEI NO STACKOVERFLOW)
             textbox.insertPlainText(str); //CONFERIR
 
             qDebug() << str;
