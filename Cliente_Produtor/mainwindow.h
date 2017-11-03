@@ -18,15 +18,18 @@ public:
   explicit MainWindow(QWidget *parent = 0);
   ~MainWindow();
   
-  void tcpConnect();
 public slots:
+  void tcpConnect();
+  void tcpDisconnect();
   void putData();
   QString getHost();
   void stopData();
+  void timerEvent(QTimerEvent *e);
 private:
   Ui::MainWindow *ui;
   QTcpSocket *socket;
-  QTimer timer;
+  int idTimer;
+  //QTimer timer;
 
 };
 
