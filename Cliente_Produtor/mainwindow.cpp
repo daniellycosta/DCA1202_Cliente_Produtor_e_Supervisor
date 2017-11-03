@@ -71,7 +71,6 @@ void MainWindow::stopData(){ //CONFERIR
 
 void MainWindow::timerEvent(QTimerEvent *e){
     QString str;
-    qint64 msecdate;
     int max,min;
 
     max = ui->lcdNumber_max->value();
@@ -79,9 +78,8 @@ void MainWindow::timerEvent(QTimerEvent *e){
 
     if(socket->state()== QAbstractSocket::ConnectedState){
 
-        msecdate = QDateTime::currentDateTime().toMSecsSinceEpoch();
-        str = "set "+ QString::number(msecdate) + " " + QString::number(qrand()%(max - min) + min)+"\r\n";
-        ui->textBrowser->insertPlainText(str);
+        str = "set "+ QDateTime::currentDateTime().toString() + " " + QString::number(qrand()%(max - min) + min)+"\r\n";
+        ui->textBrowser->insertPlainText(str + "\n");
 
         qDebug() << str;
         qDebug() << socket->write(str.toStdString().c_str()) << " bytes written";
