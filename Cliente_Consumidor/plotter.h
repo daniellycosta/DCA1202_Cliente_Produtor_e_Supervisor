@@ -8,13 +8,12 @@ class Plotter : public QWidget
 {
   Q_OBJECT
 private:
-  std::vector<double> times;
-  std::vector<double> datas;
+  std::vector<double> tempos;
+  std::vector<double> dados;
   float time;
 public:
   explicit Plotter(QWidget *parent = 0);
   void paintEvent(QPaintEvent *e);
-  //void timerEvent(QTimerEvent *e);
   void loadData(std::vector <double>,std::vector <double>);
 };
 

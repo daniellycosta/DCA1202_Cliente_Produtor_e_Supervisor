@@ -25,7 +25,7 @@ MainWindow::MainWindow(QWidget *parent) :
   connect(ui->pushButton_Stop,
           SIGNAL(clicked(bool)),
           this,
-          SLOT(stopData());
+          SLOT(stopData()));
   connect(ui->pushButton_Connect,
           SIGNAL(clicked(bool)),
           this,
@@ -74,13 +74,12 @@ void MainWindow::getData(){
 }
 
 void MainWindow::timerEvent(QTimerEvent *e){
-    QString str,num;
-//    QByteArray array;
+    QString str;
     QStringList list;
-    qint64 thetime;
+    qint64 thetime, num;
     Plotter p;
-    vector<double> time;
-    vector<double> data;
+    std::vector<double> time;
+    std::vector<double> data;
 
     qDebug() << "to get data...";
     if(socket->state() == QAbstractSocket::ConnectedState){
@@ -101,7 +100,7 @@ void MainWindow::timerEvent(QTimerEvent *e){
             time.push_back(thetime);
 
             str = list.at(1);
-            num = str.toDouble(&ok);
+            num = str.toLongLong(&ok);
             data.push_back(num);
             qDebug() << thetime << ": " << str;
           }

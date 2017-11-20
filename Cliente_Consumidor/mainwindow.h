@@ -25,7 +25,6 @@ public slots:
   void stopData(void);
   void updateIp(void);
   void timerEvent(QTimerEvent *e);
-  void paintEvent(QPaintEvent *e);
 
 private:
   Ui::MainWindow *ui;
