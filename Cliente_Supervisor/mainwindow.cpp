@@ -7,6 +7,8 @@
 #include <QListWidget>
 #include <QWidget>
 #include <QSlider>
+#include <vector>
+#include<plotter.h>
 
 MainWindow::MainWindow(QWidget *parent) :
   QMainWindow(parent),
@@ -21,7 +23,7 @@ MainWindow::MainWindow(QWidget *parent) :
           this,
           SLOT(getData()));
   connect(ui->pushButton_Stop,
-          SIGNAL(clicked(bool),
+          SIGNAL(clicked(bool)),
           this,
           SLOT(stopData());
   connect(ui->pushButton_Connect,
@@ -72,15 +74,20 @@ void MainWindow::getData(){
 }
 
 void MainWindow::timerEvent(QTimerEvent *e){
-    QString str;
-    QByteArray array;
+    QString str,num;
+//    QByteArray array;
     QStringList list;
     qint64 thetime;
+    Plotter p;
+    vector<double> time;
+    vector<double> data;
+
     qDebug() << "to get data...";
     if(socket->state() == QAbstractSocket::ConnectedState){
       if(socket->isOpen()){
         qDebug() << "reading...";
-        socket->write("get" + ui->listWidget_ListaDeClients->currentItem()->text() + "30\r\n");
+        str = "get" + ui->listWidget_ListaDeClients->currentItem()->text() + "30\r\n";
+        socket->write(str.toStdString().c_str());
         socket->waitForBytesWritten();
         socket->waitForReadyRead();
         qDebug() << socket->bytesAvailable();
@@ -91,13 +98,17 @@ void MainWindow::timerEvent(QTimerEvent *e){
             bool ok;
             str = list.at(0);
             thetime = str.toLongLong(&ok);
+            time.push_back(thetime);
+
             str = list.at(1);
+            num = str.toDouble(&ok);
+            data.push_back(num);
             qDebug() << thetime << ": " << str;
           }
         }
       }
     }
-
+    p.loadData(time,data);
 }
 
 void MainWindow::stopData(void){
@@ -110,16 +121,8 @@ void MainWindow::updateIp(void){
     socket->write("list \r\n");
     while(socket->bytesAvailable()){
       str = socket->readLine().replace("\n","").replace("\r","");
-      list = str.split(" ");
-      if(list.size() == 2){
-        bool ok;
-        str = list.at(0);
-        thetime = str.toLongLong(&ok);
-        str = list.at(1);
-        qDebug() << thetime << ": " << str;
+      ui->listWidget_ListaDeClients->addItem(str);
     }
-
-    ui->listWidget_ListaDeClients->
 }
 
 
