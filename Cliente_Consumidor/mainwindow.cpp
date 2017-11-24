@@ -11,66 +11,55 @@
 #include<plotter.h>
 
 MainWindow::MainWindow(QWidget *parent) :
-  QMainWindow(parent),
-  ui(new Ui::MainWindow)
+    QMainWindow(parent),
+    ui(new Ui::MainWindow)
 {
-  ui->setupUi(this);
-  socket = new QTcpSocket(this);
-  tcpConnect();
+    ui->setupUi(this);
+    socket = new QTcpSocket(this);
+    idTimer = 0;
 
-  connect(ui->pushButtonGet,
-          SIGNAL(clicked(bool)),
-          this,
-          SLOT(getData()));
-  connect(ui->pushButton_Stop,
-          SIGNAL(clicked(bool)),
-          this,
-          SLOT(stopData()));
-  connect(ui->pushButton_Connect,
-          SIGNAL(clicked(bool)),
-          this,
-          SLOT(tcpConnect()));
-  connect(ui->pushButton_Disconnect,
-          SIGNAL(clicked(bool)),
-          this,
-          SLOT(tcpDisconnect()));
-  connect(ui->pushButton_Update,
-          SIGNAL(clicked(bool)),
-          this,
-          SLOT(updateIp()));
+    connect(ui->pushButtonGet,
+            SIGNAL(clicked(bool)),
+            this,
+            SLOT(getData()));
+    connect(ui->pushButton_Stop,
+            SIGNAL(clicked(bool)),
+            this,
+            SLOT(stopData()));
+    connect(ui->pushButton_Connect,
+            SIGNAL(clicked(bool)),
+            this,
+            SLOT(tcpConnect()));
+    connect(ui->pushButton_Disconnect,
+            SIGNAL(clicked(bool)),
+            this,
+            SLOT(tcpDisconnect()));
+    connect(ui->pushButton_Update,
+            SIGNAL(clicked(bool)),
+            this,
+            SLOT(updateIp()));
 }
 
 void MainWindow::tcpConnect(){
-  socket->connectToHost(getHost(),1234);
-  if(socket->waitForConnected(3000)){
-    qDebug() << "Connected";
-  }
-  else{
-    qDebug() << "Disconnected";
-  }
-
-  updateIp();
+    socket->connectToHost(ui->lineEdit_Host->text(),1234);
+    if(socket->waitForConnected()){
+        qDebug() << "Connected";
+    }
+    else{
+        qDebug() << "Disconnected";
+    }
 }
 
 void MainWindow::tcpDisconnect(){
     socket->disconnectFromHost();
 }
 
-QString MainWindow::getHost(){
-    QString ip;
-
-    ip = ui->lineEdit_Host->text();
-
-
-    return ip;
-}
 
 void MainWindow::getData(){
-  QString timeStr;
-
-  timeStr = ui->horizontalSlider_Time->value();
-  killTimer(idTimer);
-  idTimer = startTimer((timeStr.toInt())*1000);
+    if(idTimer){
+        killTimer(idTimer);
+    }
+    idTimer = startTimer(ui->horizontalSlider_Time->value()*1000);
 
 }
 
@@ -86,32 +75,32 @@ void MainWindow::timerEvent(QTimerEvent *e){
 
     qDebug() << "to get data...";
     if(socket->state() == QAbstractSocket::ConnectedState){
-      if(socket->isOpen()){
-        qDebug() << "reading...";
-        str = "get " + ui->listWidget_ListaDeClients->currentItem()->text() + " 30\r\n";
-        socket->write(str.toStdString().c_str());
-        socket->waitForBytesWritten();
-        socket->waitForReadyRead();
-        qDebug() << socket->bytesAvailable();
-        time.clear();
-        data.clear();
-        while(socket->bytesAvailable()){
-          str = socket->readLine().replace("\n","").replace("\r","");
-          list = str.split(" ");
+        if(socket->isOpen()){
+            qDebug() << "reading...";
+            str = "get " + ui->listWidget_ListaDeClients->currentItem()->text() + " 30\r\n";
+            socket->write(str.toStdString().c_str());
+            socket->waitForBytesWritten();
+            socket->waitForReadyRead();
+            qDebug() << socket->bytesAvailable();
+            time.clear();
+            data.clear();
+            while(socket->bytesAvailable()){
+                str = socket->readLine().replace("\n","").replace("\r","");
+                list = str.split(" ");
 
-          if(list.size() == 2){
-            bool ok;
-            str = list.at(0);
-            thetime = str.toLongLong(&ok);
-            time.push_back(thetime);
+                if(list.size() == 2){
+                    bool ok;
+                    str = list.at(0);
+                    thetime = str.toLongLong(&ok);
+                    time.push_back(thetime);
 
-            str = list.at(1);
-            num = str.toLongLong(&ok);
-            data.push_back(num);
-            qDebug() << thetime << ": " << str;
-          }
+                    str = list.at(1);
+                    num = str.toLongLong(&ok);
+                    data.push_back(num);
+                    qDebug() << thetime << ": " << str;
+                }
+            }
         }
-      }
     }
 
     qDebug()<<data.size()<<time.size();
@@ -134,10 +123,10 @@ void MainWindow::timerEvent(QTimerEvent *e){
         }
     }
 
-        qDebug()<<max_x-min_x;
+    qDebug()<<max_x-min_x;
 
 
-       qDebug()<<max_y<<min_y;
+    qDebug()<<max_y<<min_y;
 
 
     //normalizando dados
@@ -152,23 +141,33 @@ void MainWindow::timerEvent(QTimerEvent *e){
 }
 
 void MainWindow::stopData(void){
-    killTimer(idTimer);
+    if(idTimer){
+        killTimer(idTimer);
+    }
 }
 
 void MainWindow::updateIp(void){
     QString str;
 
     ui->listWidget_ListaDeClients->clear();
-    socket->write("list \r\n");
-    while(socket->bytesAvailable()){
-      str = socket->readLine().replace("\n","").replace("\r","");
-      ui->listWidget_ListaDeClients->addItem(str);
+    if(socket->state() == QAbstractSocket::ConnectedState){
+        socket->write("list\r\n");
+        socket->waitForBytesWritten();
+        socket->waitForReadyRead();
+        while(socket->bytesAvailable()){
+            str = socket->readLine().replace("\n","").replace("\r","");
+            ui->listWidget_ListaDeClients->addItem(str);
+        }
     }
+    else{
+        ui->listWidget_ListaDeClients->addItem("Não tem nada");
+    }
+
 }
 
 
 MainWindow::~MainWindow()
 {
-  delete socket;
-  delete ui;
+    delete socket;
+    delete ui;
 }

@@ -21,7 +21,6 @@ public slots:
   void tcpConnect(void);
   void tcpDisconnect(void);
   void getData(void);
-  QString getHost(void);
   void stopData(void);
   void updateIp(void);
   void timerEvent(QTimerEvent *e);

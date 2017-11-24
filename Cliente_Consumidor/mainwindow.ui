@@ -70,6 +70,9 @@
         </item>
         <item>
          <widget class="QSlider" name="horizontalSlider_Time">
+          <property name="minimum">
+           <number>1</number>
+          </property>
           <property name="orientation">
            <enum>Qt::Horizontal</enum>
           </property>
@@ -78,7 +81,7 @@
         <item>
          <widget class="QLabel" name="label_number">
           <property name="text">
-           <string>0</string>
+           <string>1</string>
           </property>
          </widget>
         </item>
