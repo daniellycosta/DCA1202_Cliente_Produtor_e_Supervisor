@@ -10,7 +10,10 @@ using namespace std;
 
 Plotter::Plotter(QWidget *parent) :
     QWidget(parent){
-
+    for(int i=0; i<30; i++){
+        tempos.push_back(i);
+        dados.push_back(i);
+    }
 }
 
 void Plotter::paintEvent(QPaintEvent *e)
@@ -21,7 +24,7 @@ void Plotter::paintEvent(QPaintEvent *e)
     double x1, x2, y1, y2;
     vector<double>dadosnorm;
     vector<double>temposnorm;
-    double max_x, min_x, min_y, max_y;
+//    double max_x, min_x, min_y, max_y;
 
     painter.setRenderHint(QPainter::Antialiasing);
 
@@ -36,9 +39,6 @@ void Plotter::paintEvent(QPaintEvent *e)
 
     // desenha o fundo do plotter
     painter.drawRect(0,0,width(), height());
-
-    // desenha a reta horizontal
-    painter.drawLine(0,height()/2,width(),height()/2);
 
     // desenha o grid
     pen.setColor(QColor(200,200,0));
@@ -56,41 +56,41 @@ void Plotter::paintEvent(QPaintEvent *e)
     pen.setStyle(Qt::SolidLine);
     painter.setPen(pen);
 
-    //achando valores maximos e minimos
-    max_x = tempos[0], min_x = tempos[0];
-    min_y = dados[0], max_y = dados[0];
+//    //achando valores maximos e minimos
+//    max_x = tempos[0], min_x = tempos[0];
+//    min_y = dados[0], max_y = dados[0];
 
-    for(int i = 1 ; i < tempos.size(); i++){
-        if(tempos[i] < min_x){
-            min_x = tempos[i];
-        }
-        else if(tempos[i] > max_x){
-            max_x = tempos[i];
-        }
-        if(dados[i] < min_y){
-            min_y = dados[i];
-        }
-        else if(dados[i] > max_y){
-            max_x = dados[i];
-        }
-    }
+//    for(int i = 1 ; i < 30; i++){
+//        if(tempos[i] < min_x){
+//            min_x = tempos[i];
+//        }
+//        else if(tempos[i] > max_x){
+//            max_x = tempos[i];
+//        }
+//        if(dados[i] < min_y){
+//            min_y = dados[i];
+//        }
+//        else if(dados[i] > max_y){
+//            max_x = dados[i];
+//        }
+//    }
 
-    //normalizando dados
+//    //normalizando dados
 
-    for(int i = 0; i<tempos.size(); i++){
-        temposnorm[i] = (tempos[i] - min_x)/(max_x - min_x);
-        dadosnorm[i] = (dados[i] - min_y)/(max_y - min_y);
-    }
+//    for(int i = 0; i<30; i++){
+//        temposnorm[i] = (tempos[i] - min_x)/(max_x - min_x);
+//        dadosnorm[i] = (dados[i] - min_y)/(max_y - min_y);
+//    }
 
 
     //plotando graficos
 
-    x1 = temposnorm[0];
-    y1 = dadosnorm[0];
+    x1 = tempos[0]*width();
+    y1 = dados[0]*(height()-dados[0]);
 
-    for(int i=1; i<width(); i++){
-        x2=temposnorm[i];
-        y2=dadosnorm[i];
+    for(int i=1; i<30; i++){
+        x2=tempos[i]*width();
+        y2=dados[i]*(height()-dados[i]);
         painter.drawLine(x1,y1,x2,y2);
         x1 = x2;
         y1 = y2;
@@ -99,11 +99,8 @@ void Plotter::paintEvent(QPaintEvent *e)
 }
 
 void Plotter::loadData(vector<double> t, vector<double> d){
-
-    for(int i = 0 ; i< t.size(); i++){
-        tempos.push_back(t[i]);
-        dados.push_back(d[i]);
-    }
+    tempos=t;
+    dados=d;
     repaint();
 }
 

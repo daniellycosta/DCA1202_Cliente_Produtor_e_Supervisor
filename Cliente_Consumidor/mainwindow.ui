@@ -25,7 +25,11 @@
        </widget>
       </item>
       <item>
-       <widget class="QLineEdit" name="lineEdit_Host"/>
+       <widget class="QLineEdit" name="lineEdit_Host">
+        <property name="text">
+         <string>127.0.0.1</string>
+        </property>
+       </widget>
       </item>
       <item>
        <layout class="QHBoxLayout" name="horizontalLayout">
@@ -101,7 +105,7 @@
      </layout>
     </item>
     <item row="0" column="1">
-     <widget class="QWidget" name="widget_Plotter" native="true"/>
+     <widget class="Plotter" name="widget_Plotter" native="true"/>
     </item>
    </layout>
   </widget>
@@ -126,6 +130,20 @@
   <widget class="QStatusBar" name="statusBar"/>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
+ <customwidgets>
+  <customwidget>
+   <class>Plotter</class>
+   <extends>QWidget</extends>
+   <header>plotter.h</header>
+   <container>1</container>
+   <slots>
+    <signal>mudouX(int)</signal>
+    <signal>mudouY(int)</signal>
+    <slot>mudaAmplitude(int)</slot>
+    <slot>mudaFrequencia(int)</slot>
+   </slots>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections>
   <connection>
