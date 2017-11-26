@@ -28,8 +28,8 @@ void Plotter::paintEvent(QPaintEvent *e)
     brush.setColor(QColor(255,255,200));
     brush.setStyle(Qt::SolidPattern);
 
-    pen.setColor(QColor(255,0,0));
-    pen.setWidth(3);
+//    pen.setColor(QColor(255,0,0));
+//    pen.setWidth(3);
 
     painter.setBrush(brush);
     painter.setPen(pen);
@@ -37,17 +37,6 @@ void Plotter::paintEvent(QPaintEvent *e)
     // desenha o fundo do plotter
     painter.drawRect(0,0,width(), height());
 
-    // desenha o grid
-//    pen.setColor(QColor(200,200,0));
-//    pen.setWidth(1);
-//    pen.setStyle(Qt::DashLine);
-//    painter.setPen(pen);
-
-//    for(int i=width()/6; i<5*width()/6; i+=width()/6){
-//        painter.drawLine(i,0,i,height());
-//    }
-
-    // desenha o grid
     pen.setColor(QColor(0,0,255));
     pen.setWidth(2);
     pen.setStyle(Qt::SolidLine);
